@@ -6,7 +6,7 @@ const App = () => {
 
   useEffect(() => {
     async function fetchData() {
-      const res = await fetch("https://huynhdh.herokuapp.com/api/v1/query/tourist/place/");
+      const res = await fetch("http://127.0.0.1:8000/api/v1/query/tourist/place/", []);
       res
         .json()
         .then(res => setPlanets(res))
@@ -14,7 +14,7 @@ const App = () => {
     }
 
     fetchData();
-  });
+  }, []);
 
   return (
     <div>
