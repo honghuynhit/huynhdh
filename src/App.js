@@ -1,26 +1,27 @@
-import React from 'react';
-import './App.css';
+import React, { useState, useEffect } from "react";
 
-import axios from 'axios';
+const App = () => {
+  const [hasError, setErrors] = useState(false);
+  const [planets, setPlanets] = useState({});
 
-export default class App extends React.Component {
-  state = {
-    persons: []
-  }
+  useEffect(() => {
+    async function fetchData() {
+      const res = await fetch("https://huynhdh.herokuapp.com/api/v1/query/tourist/place/");
+      res
+        .json()
+        .then(res => setPlanets(res))
+        .catch(err => setErrors(err));
+    }
 
-  componentDidMount() {
-    axios.get(`https://huynhdh.herokuapp.com/api/v1/query/tourist/place/`)
-      .then(res => {
-        const persons = res.data;
-        this.setState({ persons });
-      })
-  }
+    fetchData();
+  });
 
-  render() {
-    return (
-      <ul>
-        { this.state.persons.map(person => <li>{person.name}</li>)}
-      </ul>
-    )
-  }
-}
+  return (
+    <div>
+      <span>{JSON.stringify(planets)}</span>
+      <hr />
+      <span>Has error: {JSON.stringify(hasError)}</span>
+    </div>
+  );
+};
+export default App;
